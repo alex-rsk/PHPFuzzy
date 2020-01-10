@@ -1,10 +1,5 @@
 <?php
 namespace PHPFuzzy;
-/*require_once 'constants.inc.php';
-require_once 'utils.inc.php';
-require_once 'Dictionary.php';
-require_once 'levdam.inc.php';
-*/
 
 class Dictionary
 {
@@ -22,9 +17,6 @@ class Dictionary
             }
         }
         fclose($file);
-/* 
-       $this->dictionary  = ['час', 'часы', 'танк', 'часм','чесы','чек', 
-           'чеки','печь','пасы','пес','пары','барк'];*/
     }        
 
     public function getDictionary()

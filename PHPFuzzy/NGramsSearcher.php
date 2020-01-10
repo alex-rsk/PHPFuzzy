@@ -55,20 +55,6 @@ class NGramsSearcher extends Searcher
     
         $count = $this->dictionary->getDictionaryLength();
         $dictionary    = $this->dictionary->getDictionary();
-     /*   foreach ($dictionary as $word) {
-            if (mb_strlen($word) === $this->arity) {
-                $ngram = $this->getNGram($word, 0);
-            } else {
-                for ($k = 0; $k < mb_strlen($word) - $this->arity + 1; $k++) {
-                    $ngram = $this->getNGram($word, $k);
-                }
-            }
-            if (!isset($ngramCountMap[$ngram])) {
-                $ngramCountMap[$ngram] = 0;
-            }
-            $ngramCountMap[$ngram] ++;
-        }
-        */
         $this->ngramMap = [[]];
 
         for ($i = 0; $i < count($dictionary); $i++) {

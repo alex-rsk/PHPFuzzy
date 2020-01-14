@@ -7,7 +7,6 @@ class Dictionary
     
     public function __construct($dictionary = 'ruswords.txt')
     {
-
         $this->dictionary             = [];
         $dictionaryFilename = 'dictionaries' . DIRECTORY_SEPARATOR . $dictionary;
         $file               = fopen($dictionaryFilename, 'r');

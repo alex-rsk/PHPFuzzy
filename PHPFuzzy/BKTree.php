@@ -9,9 +9,9 @@ class BKTree
 {
     
 
-    protected $value;        
+    public $value;        
     
-    protected $children = [];        
+    public $children = [];        
     
     protected $maxDistance;
 
@@ -52,7 +52,7 @@ class BKTree
         {
             $results = [];
         }
-        $crossDistance = levenshtein($this->value, $word);
+        $crossDistance = levenshtein($this->value, $word);        
         if ($crossDistance <= $this->maxDistance)
         {
             $results[] = $this->value;
@@ -62,7 +62,7 @@ class BKTree
             $distance  = $crossDistance;
         }
         
-        for ($i=$distance + $this->maxDistance + 1; $i>$this->maxDistance-$distance-1;$i--)
+        for ($i=$distance + $this->maxDistance; $i>$this->maxDistance-$distance; $i--)
         {           
             if (isset($this->children[$i]))
             {

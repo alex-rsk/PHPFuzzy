@@ -22,6 +22,9 @@ class Searcher
         $this->measurements['dictionary'][] = microtime(true);
     }
 
+    /**
+     *  Создает индекс поиска
+     */
     protected function createIndex()
     {
         

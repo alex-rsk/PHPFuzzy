@@ -15,7 +15,12 @@ class ExhaustiveSearcher extends Searcher
             $this->results[] = $result;
         }
     }
-    
+    /**
+     * Поиск
+     * 
+     * @param string $searchQuery поисковый запрос
+     * @return array 
+     */
     private function search($searchQuery)
     {
         $results = [];

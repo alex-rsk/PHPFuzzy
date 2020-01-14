@@ -47,7 +47,6 @@ class SignatureHashingSearcher extends Searcher
     protected function makeHash($word)
     {
         $result = 0;
-        //$symbols = preg_split('//u', $word, -1, PREG_SPLIT_NO_EMPTY);
         for ($i = 0; $i < mb_strlen($word); $i++) {
             $symbol = mb_substr($word, $i, 1);;
             $index  = Utils::ordOffset($symbol, $this->alphabet);
@@ -61,7 +60,7 @@ class SignatureHashingSearcher extends Searcher
     }
 
     /**
-     * Строит индекс поиска 
+     * Заполняет группы хэша
      * 
      * @return int
      */
@@ -83,12 +82,15 @@ class SignatureHashingSearcher extends Searcher
         }
     }
 
+   /**
+    * Заполняет группы хэша
+    */
     protected function createIndex()
     {
         $this->fillAlphabetMap();
         $dictionary     = $this->dictionary->getDictionary();
         $count = $this->dictionary->getDictionaryLength();
-        for ($i = 0; $i < count($dictionary); ++$i) {
+        for ($i = 0; $i < count($dictionary); $i++) {
             $hash = $this->makeHash($dictionary[$i]);
             if (!isset($this->index[$hash])) {
                 $this->index[$hash] = [];
@@ -103,7 +105,7 @@ class SignatureHashingSearcher extends Searcher
      */
     protected function getHashVariants(string $query, int $hash, int $start, &$set, $depth)
     {
-        for ($i = $start; $i < $this->hashSize; ++$i) {
+        for ($i = $start; $i < $this->hashSize; $i++) {
             $queryHash = $hash ^ (1 << $i);
             $this->innerSearch($query, $queryHash, $set);
             if ($depth > 0) {

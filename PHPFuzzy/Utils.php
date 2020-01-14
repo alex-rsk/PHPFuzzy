@@ -94,7 +94,7 @@ class Utils
     {
         $content = prettyPrint($variable);
         if ($file) {
-            file_put_contents('log.txt', $content, $flush ? FILE_APPEND : null);
+            file_put_contents('log.txt', $content, !$flush ? FILE_APPEND : null);
         } else {
             print $content;
         }
@@ -120,7 +120,7 @@ class Utils
      * 
      * @param string $symbol
      * @param array $alphabet
-     * @return int -1 если символ за пределами алфавита, или порядкой номер 
+     * @return int -1 если символ за пределами алфавита, или порядковый номер 
      * относительно начала
      */
     public static function ordOffset($symbol, $alphabet)

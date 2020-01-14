@@ -4,7 +4,7 @@ namespace PHPFuzzy;
 class NGramsSearcher extends Searcher
 {
 
-    private $ngramMap;
+    protected $index;
 
     public function __construct($searchQuery, $maxDistance = MAX_DISTANCE, $arity
     = DEFAULT_ARITY)
@@ -21,7 +21,14 @@ class NGramsSearcher extends Searcher
         $this->measurements['search'][] = microtime(true);
     }
 
-    private function getNGram($word, $start)
+    /**
+     * Получить хэш н-граммы
+     * 
+     * @param string $word исходная строка
+     * @param int $start позиция, с которой получаем н-группу
+     * @return type
+     */
+    protected function getNGram($word, $start)
     {
         $ngram = 0;
         for ($i = $start; $i < $start + $this->arity; $i++) {
@@ -31,12 +38,16 @@ class NGramsSearcher extends Searcher
         }
         return $ngram;
     }
-
+    
+    /**
+     * Поиск
+     *
+    */
     public function search($term)
     {        
         for ($i = 0; $i < mb_strlen($term) - $this->arity + 1; $i++) {
             $ngram       = $this->getNGram($term, $i);
-            $dictIndexes = $this->ngramMap[$ngram];
+            $dictIndexes = $this->index[$ngram];
             $dictionary    = $this->dictionary->getDictionary();
             if (!empty($dictIndexes)) {
                 foreach ($dictIndexes as $index) {
@@ -50,28 +61,30 @@ class NGramsSearcher extends Searcher
         $this->results = array_unique($this->results);
     }
 
+    /**
+     *  Построить индекс 
+     */
     public function createIndex()
-    {
-    
+    {    
         $count = $this->dictionary->getDictionaryLength();
         $dictionary    = $this->dictionary->getDictionary();
-        $this->ngramMap = [[]];
+        $this->index = [[]];
 
         for ($i = 0; $i < count($dictionary); $i++) {
             $word = $dictionary[$i];
             if (mb_strlen($word) === $this->arity) {
                 $ngram = $this->getNGram($word, 0);
-                if (!isset($this->ngramMap[$ngram])) {
-                    $this->ngramMap[$ngram] = [];
+                if (!isset($this->index[$ngram])) {
+                    $this->index[$ngram] = [];
                 }
-                $this->ngramMap[$ngram][] = $i;
+                $this->index[$ngram][] = $i;
             } else {                            
                 for ($k = 0; $k < mb_strlen($word) - $this->arity + 1; $k++) {
                     $ngram = $this->getNGram($word, $k);
-                    if (!isset($this->ngramMap[$ngram])) {
-                        $this->ngramMap[$ngram] = [];
+                    if (!isset($this->index[$ngram])) {
+                        $this->index[$ngram] = [];
                     }
-                    $this->ngramMap[$ngram][] = $i;
+                    $this->index[$ngram][] = $i;
                 }
             }
             Utils::progressBar($i, $count);

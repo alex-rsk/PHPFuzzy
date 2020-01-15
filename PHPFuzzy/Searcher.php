@@ -11,7 +11,6 @@ class Searcher
     protected $results;
     protected $searchQuery;
     protected $measurements;
-    
 
     public function __construct($searchQuery, $maxDistance = MAX_DISTANCE)
     {
@@ -42,9 +41,29 @@ class Searcher
         }
 
         return
-        [
-            'found'  => $this->results,
-            'timing' => $this->measurements
+            [
+                'found'  => $this->results,
+                'timing' => $this->measurements
         ];
+    }
+
+    protected function saveIndex()
+    {
+        $index     = \serialize($this->index);
+        $className = explode('\\', get_class($this))[1];
+        $fileName  = 'dictionaries' . DIRECTORY_SEPARATOR . $className . '.index';
+        file_put_contents($fileName, $index);
+    }
+
+    protected function loadIndex()
+    {
+        $className = explode('\\', get_class($this))[1];
+        $fileName  = 'dictionaries' . DIRECTORY_SEPARATOR . $className . '.index';
+        if (\file_exists($fileName)) {
+            $index       = \file_get_contents($fileName);
+            $this->index = \unserialize($index);
+            return true;
+        }
+        return false;
     }
 }

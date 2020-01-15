@@ -90,14 +90,19 @@ class SignatureHashingSearcher extends Searcher
         $this->fillAlphabetMap();
         $dictionary     = $this->dictionary->getDictionary();
         $count = $this->dictionary->getDictionaryLength();
+        if ($this->loadIndex())
+        {
+            return;
+        }
         for ($i = 0; $i < count($dictionary); $i++) {
             $hash = $this->makeHash($dictionary[$i]);
             if (!isset($this->index[$hash])) {
                 $this->index[$hash] = [];
             }
             $this->index[$hash][] = $i;
-            Utils::progressBar($i, $count);
+            Utils::progressBar($i, $count-1);
         }
+        $this->saveIndex();
     }
 
     /**

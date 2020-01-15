@@ -68,6 +68,10 @@ class NGramsSearcher extends Searcher
     {    
         $count = $this->dictionary->getDictionaryLength();
         $dictionary    = $this->dictionary->getDictionary();
+        if ($this->loadIndex())
+        {
+            return;
+        }
         $this->index = [[]];
 
         for ($i = 0; $i < count($dictionary); $i++) {
@@ -87,7 +91,8 @@ class NGramsSearcher extends Searcher
                     $this->index[$ngram][] = $i;
                 }
             }
-            Utils::progressBar($i, $count);
+            Utils::progressBar($i, $count-1);
         }
+        $this->saveIndex();
     }
 }

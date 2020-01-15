@@ -32,7 +32,7 @@ class ExhaustiveSearcher extends Searcher
             {
                 $results[] = $entry;
             }
-            Utils::progressBar($index, $count);
+            Utils::progressBar($index, $count-1);
         }
         return $results;
     }        

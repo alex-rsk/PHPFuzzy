@@ -6,9 +6,7 @@ namespace PHPFuzzy;
  */
 
 class BKTree
-{
-    
-
+{    
     public $value;        
     
     public $children = [];        
@@ -66,7 +64,7 @@ class BKTree
         {           
             if (isset($this->children[$i]))
             {
-                $results += $this->children[$i]->search($word, $distance, $results);
+                $results = array_merge($results, $this->children[$i]->search($word, $distance, $results));
             }
             
         }

@@ -1,6 +1,6 @@
 # PHPFuzzy
-Алгоритмы нечеткого поиска на PHP
+Fuzzy search algorithms
 
-* Алгоритм хэширования по сигнатуре
-* Алгоритм BK-деревьев
-* Алгоритм N-грамм
+* signature hashing
+* BK-trees
+* N-grams
